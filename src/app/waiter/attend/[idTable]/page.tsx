@@ -1,22 +1,18 @@
 "use client";
-
 import { Button, buttonVariants } from '@/components/ui/button';
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
+
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+
 import { cn } from '@/libs/utils';
 import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
 import TotalDishesSheet from './totalDishesSheet';
 import DialogAddDish from './dialogAddDish';
-import { Newspaper } from 'lucide-react';
+import { icons, Newspaper, PenLine } from 'lucide-react';
+import Box from '@/components/ui/box';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { toast } from 'sonner';
 
 
 export interface DishesInterface {
@@ -59,6 +55,12 @@ const fakeDishes: DishesInterface[] = [
     },
 ];
 
+const tableStatuses = [
+    { label: "Sin atender", value: "sin_atender", colors: "bg-red-100 text-red-800" },
+    { label: "Atendida", value: "atendida", colors: "bg-green-100 text-green-800" },
+    { label: "Para limpieza", value: "para_limpieza", colors: "bg-yellow-100 text-yellow-800" },
+];
+
 
 export default function AttendTableIdPage() {
 
@@ -66,7 +68,7 @@ export default function AttendTableIdPage() {
     const [openModal, setOpenModal] = useState<number | null>(null);
     const [openSheet, setOpenSheet] = useState(false)
     const [observations, setObservations] = useState<string>("");
-
+    const [statusTable, setStatusTable] = useState<string>("sin_atender");
 
     const handleAddDish = (dish: DishesInterface) => {
         setOrderdDishes(prev => {
@@ -115,6 +117,13 @@ export default function AttendTableIdPage() {
         setObservations(e.target.value);
     }
 
+
+    const onSubmitOrder = () => {
+        toast.success("Orden solicitada");
+        setOpenSheet(false);
+        setStatusTable("atendida");
+    }
+
     return (
         <div className="flex flex-col gap-4">
 
@@ -126,6 +135,7 @@ export default function AttendTableIdPage() {
             </Button>}
 
             <TotalDishesSheet
+                onSubmitOrder={onSubmitOrder}
                 onClearOrder={() => {
                     setOpenSheet(false)
                     setOrderdDishes([]);
@@ -136,7 +146,43 @@ export default function AttendTableIdPage() {
                 orderdDishes={orderdDishes}
             />
 
-            <Input placeholder="Buscar plato" />
+            <Box>
+                <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium text-gray-800">Estado:</p>
+                    <div className="flex gap-2 items-center justify-center">
+                        <span
+                            className={`rounded-full px-4 py-1 text-sm font-medium ${tableStatuses.find((s) => s.value === statusTable)?.colors || "bg-gray-100 text-gray-800"
+                                }`}
+                        >
+                            {tableStatuses.find((s) => s.value === statusTable)?.label || "Desconocido"}
+                        </span>
+
+
+                        <Popover>
+                            <PopoverTrigger className={cn(buttonVariants({ variant: "outline" }), "flex gap-2 items-center justify-center")}>
+                                <PenLine size={20} /> <span>Cambiar estado</span>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <Select value={statusTable} onValueChange={setStatusTable}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Estado" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {tableStatuses.map((status) => (
+                                            <SelectItem key={status.value} value={status.value}>
+                                                {status.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                </div>
+
+                <Input placeholder="Buscar plato" className="max-w-sm w-full" />
+            </Box>
             <div className="grid grid-cols-1 gap-4">
 
                 <div className="w-full flex gap-4">
@@ -155,8 +201,8 @@ export default function AttendTableIdPage() {
 
                 {fakeDishes.map((dish) => (
                     <div key={dish.id}>
-                        <div className="p-2 rounded-md border-gray-400 flex items-center gap-4">
-                            < img
+                        <Box className="flex-row">
+                            <img
                                 src={dish.image}
                                 alt={`Imagen de ${dish.name}`}
                                 className="object-cover w-20 h-20 rounded-md"
@@ -177,7 +223,8 @@ export default function AttendTableIdPage() {
                                     Ver más
                                 </Link>
                             </div>
-                        </div>
+                        </Box>
+
                         <DialogAddDish
                             onChangeObservation={onChangeObservation}
                             openModal={openModal}

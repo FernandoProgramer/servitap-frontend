@@ -3,6 +3,7 @@ import { Minus, Plus } from "lucide-react";
 import { DishesToOrderInterface } from "./page";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { toast } from "sonner";
+import Box from "@/components/ui/box";
 
 
 interface TotalDishesSheetProps {
@@ -11,8 +12,9 @@ interface TotalDishesSheetProps {
   onChangeAmount: (direcion: "minus" | "plus", id: number) => void
   openSheet: boolean
   setOpenSheet: (state: boolean) => void
+  onSubmitOrder: () => void
 }
-export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet, orderdDishes, onChangeAmount }: TotalDishesSheetProps) {
+export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet, orderdDishes, onChangeAmount, onSubmitOrder }: TotalDishesSheetProps) {
 
   return <Sheet open={openSheet} onOpenChange={setOpenSheet}>
     <SheetContent>
@@ -25,9 +27,9 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
       <div className="grid grid-cols-1 gap-4 overflow-y-auto px-4">
         {orderdDishes.map((dish) =>
           dish.amount >= 1 && (
-            <div
+            <Box
               key={dish.idOrder}
-              className="border p-4 rounded-lg flex flex-col items-center text-center"
+              className="items-center text-center w-full"
             >
               <img
                 src={dish.image}
@@ -49,7 +51,7 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
                   </Button>
                 </div>
               </div>
-            </div>
+            </Box>
           )
         )}
 
@@ -57,7 +59,7 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
           <Button variant="destructive" onClick={() => onClearOrder()}>
             Vaciar
           </Button>
-          <Button disabled={orderdDishes.length === 0} onClick={() => toast.success("Orden solicitada")}>
+          <Button disabled={orderdDishes.length === 0} onClick={() => onSubmitOrder()}>
             Ordenar
           </Button>
         </div>
