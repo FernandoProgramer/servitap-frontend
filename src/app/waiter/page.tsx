@@ -21,14 +21,14 @@ export const tables = [
 
 export default function WaiterPage() {
   return <div>
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-2 px-4">
       {tables.map((table) => (
         <Link href={`waiter/attend/${table.id}/`} type="button" key={table.id} className={cn(
-          "shadow relative borde justify-center items-center flex p-10 rounded-xl transition-all ease-in-out duration-300 ", "border-gray-500 cursor-pointer hover:bg-gray-100 hover:shadow-lg bg-white text-gray-900"
+          "shadow relative borde justify-center items-center flex px-10 pt-4 pb-14 rounded-xl transition-all ease-in-out duration-300 ", "border-gray-500 cursor-pointer hover:bg-gray-100 hover:shadow-lg bg-white text-gray-900"
         )}>
           <span className="font-bold text-2xl">{table.name}</span>
           {table.isAttented && <div>
-            <span className="absolute bg-yellow-100 left-1/2 -translate-x-1/2 bottom-2 text-yellow-800 py-1 px-3 rounded-full shadow-sm text-xs font-medium">Atentidada</span>
+            <span className="absolute bg-yellow-100 left-1/2 -translate-x-1/2 bottom-6 text-yellow-800 py-1 px-3 rounded-full shadow-sm text-xs font-medium">Atentidada</span>
           </div>}
 
         </Link>

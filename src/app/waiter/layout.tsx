@@ -40,7 +40,7 @@ export default function WaiterLayout({ children }: { children: ReactNode }) {
         </div>
 
         {section && <div className="px-4">
-            <Box>
+            <Box className="border-0 shadow-none">
                 <span className="text-2xl font-semibold">
                     {section.name}
                 </span>
