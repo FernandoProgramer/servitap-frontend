@@ -23,7 +23,7 @@ export default function WaiterPage() {
   return <div>
     <div className="grid grid-cols-2 gap-2">
       {tables.map((table) => (
-        <Link href={`waiter/${table.isAttented ? "edit" : "attend"}/${table.id}/`} type="button" key={table.id} className={cn(
+        <Link href={`waiter/attend/${table.id}/`} type="button" key={table.id} className={cn(
           "shadow relative borde justify-center items-center flex p-10 rounded-xl transition-all ease-in-out duration-300 ", "border-gray-500 cursor-pointer hover:bg-gray-100 hover:shadow-lg bg-white text-gray-900"
         )}>
           <span className="font-bold text-2xl">{table.name}</span>

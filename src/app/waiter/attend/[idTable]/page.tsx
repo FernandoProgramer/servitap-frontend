@@ -8,11 +8,12 @@ import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
 import TotalDishesSheet from './totalDishesSheet';
 import DialogAddDish from './dialogAddDish';
-import { icons, Newspaper, PenLine } from 'lucide-react';
+import { icons, Newspaper, NotepadText, PenLine, X } from 'lucide-react';
 import Box from '@/components/ui/box';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 
 export interface DishesInterface {
@@ -69,7 +70,7 @@ export default function AttendTableIdPage() {
     const [openSheet, setOpenSheet] = useState(false)
     const [observations, setObservations] = useState<string>("");
     const [statusTable, setStatusTable] = useState<string>("sin_atender");
-
+    const router = useRouter();
     const handleAddDish = (dish: DishesInterface) => {
         setOrderdDishes(prev => {
             const existing = prev.find(item => item.id === dish.id && (item.observations || "") === observations.trim());
@@ -99,13 +100,16 @@ export default function AttendTableIdPage() {
         setOpenModal(null);
         setObservations("");
     }
-
     const onChangeAmount = (direction: "minus" | "plus", id: number) => {
         setOrderdDishes(prev => {
             return prev
                 .map(item =>
                     item.idOrder === id
-                        ? { ...item, amount: direction === "minus" ? item.amount - 1 : item.amount + 1 }
+                        ? {
+                            ...item,
+                            amount: direction === "minus" ? item.amount - 1 : item.amount + 1,
+                            totalToPay: (direction === "minus" ? item.amount - 1 : item.amount + 1) * item.price
+                        }
                         : item
                 )
                 .filter(item => item.idOrder !== id || item.amount > 0);
@@ -122,30 +126,13 @@ export default function AttendTableIdPage() {
         toast.success("Orden solicitada");
         setOpenSheet(false);
         setStatusTable("atendida");
+        setTimeout(() => {
+            router.push("/waiter/");
+        }, 1000);
     }
 
-    return (
-        <div className="flex flex-col gap-4">
-
-            {orderdDishes.length > 0 && <Button onClick={() => setOpenSheet(!openSheet)} size="icon" variant="ghost" className="absolute right-3 top-4 w-12 h-12 flex items-center justify-center">
-                <Newspaper />
-                <span className="absolute top-0.5 right-1 min-w-5 h-5 px-1.5 text-xs flex items-center justify-center rounded-full bg-rose-600 text-white font-bold">
-                    {orderdDishes.reduce((acum, dish) => acum + dish.amount, 0)}
-                </span>
-            </Button>}
-
-            <TotalDishesSheet
-                onSubmitOrder={onSubmitOrder}
-                onClearOrder={() => {
-                    setOpenSheet(false)
-                    setOrderdDishes([]);
-                }}
-                openSheet={openSheet}
-                setOpenSheet={setOpenSheet}
-                onChangeAmount={onChangeAmount}
-                orderdDishes={orderdDishes}
-            />
-
+    return <>
+        <div className="flex flex-col gap-4 px-4">
             <Box>
                 <div className="flex items-center gap-2">
                     <p className="text-sm font-medium text-gray-800">Estado:</p>
@@ -156,7 +143,6 @@ export default function AttendTableIdPage() {
                         >
                             {tableStatuses.find((s) => s.value === statusTable)?.label || "Desconocido"}
                         </span>
-
 
                         <Popover>
                             <PopoverTrigger className={cn(buttonVariants({ variant: "outline" }), "flex gap-2 items-center justify-center")}>
@@ -183,22 +169,22 @@ export default function AttendTableIdPage() {
 
                 <Input placeholder="Buscar plato" className="max-w-sm w-full" />
             </Box>
+
+            <div className="w-full flex gap-4">
+                {[
+                    { label: "Comida rápida", link: "#" },
+                    { label: "Platos fuertes", link: "#" },
+                    { label: "Bebidas", link: "#" },
+                    { label: "Postres", link: "#" },
+                    { label: "Ensaladas / entradas", link: "#" }
+                ].map((category, index) => (
+                    <Link key={index} href={category.link} className={cn(buttonVariants({ variant: category.label === "Comida rápida" ? "default" : "outline" }))}>
+                        {category.label}
+                    </Link>
+                ))}
+            </div>
+
             <div className="grid grid-cols-1 gap-4">
-
-                <div className="w-full flex gap-4">
-                    {[
-                        { label: "Comida rápida", link: "#" },
-                        { label: "Platos fuertes", link: "#" },
-                        { label: "Bebidas", link: "#" },
-                        { label: "Postres", link: "#" },
-                        { label: "Ensaladas / entradas", link: "#" }
-                    ].map((category, index) => (
-                        <Link key={index} href={category.link} className={cn(buttonVariants({ variant: "outline" }))}>
-                            {category.label}
-                        </Link>
-                    ))}
-                </div>
-
                 {fakeDishes.map((dish) => (
                     <div key={dish.id}>
                         <Box className="flex-row">
@@ -211,7 +197,7 @@ export default function AttendTableIdPage() {
                             <div className="flex flex-col gap-2 w-full text-left">
                                 <span className="text-lg font-bold">{dish.name}</span>
                                 <span className="text-md font-medium">
-                                    ${dish.price.toLocaleString()}
+                                    ${dish.price.toLocaleString("es-CO")}
                                 </span>
                             </div>
 
@@ -235,6 +221,27 @@ export default function AttendTableIdPage() {
                     </div>
                 ))}
             </div>
-        </div >
-    );
+
+            <TotalDishesSheet
+                onSubmitOrder={onSubmitOrder}
+                onClearOrder={() => {
+                    setOpenSheet(false)
+                    setOrderdDishes([]);
+                }}
+                openSheet={openSheet}
+                setOpenSheet={setOpenSheet}
+                onChangeAmount={onChangeAmount}
+                orderdDishes={orderdDishes}
+            />
+
+            {orderdDishes.length > 0 && <div className="w-full sticky bottom-2 items-center flex justify-center">
+                <Button size="lg" onClick={() => setOpenSheet(!openSheet)} className="w-full flex items-center justify-center font-bold gap-2 p-4 border max-w-md">
+                    <NotepadText size={25} /> <span>Ver pedidos ({orderdDishes.reduce((acum, dish) => acum + dish.amount, 0)})</span>
+                </Button>
+            </div>}
+        </div>
+        {/* {orderdDishes.length > 0 && <Button variant="default" onClick={() => setOpenSheet(!openSheet)} className="sticky z-50 bottom-0 w-full flex items-center justify-start font-bold gap-2 bg-gray-100 p-4 rounded-t-3xl border">
+
+        </Button>} */}
+    </>
 }
