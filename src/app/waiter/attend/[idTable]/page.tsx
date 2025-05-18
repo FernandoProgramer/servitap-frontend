@@ -65,14 +65,14 @@ const tableStatuses = [
 
 export default function AttendTableIdPage() {
 
-    const [orderdDishes, setOrderdDishes] = useState<DishesToOrderInterface[]>([]);
+    const [orderedDishes, setOrderedDishes] = useState<DishesToOrderInterface[]>([]);
     const [openModal, setOpenModal] = useState<number | null>(null);
     const [openSheet, setOpenSheet] = useState(false)
     const [observations, setObservations] = useState<string>("");
     const [statusTable, setStatusTable] = useState<string>("sin_atender");
     const router = useRouter();
     const handleAddDish = (dish: DishesInterface) => {
-        setOrderdDishes(prev => {
+        setOrderedDishes(prev => {
             const existing = prev.find(item => item.id === dish.id && (item.observations || "") === observations.trim());
 
             if (existing) return prev.map(item =>
@@ -88,7 +88,7 @@ export default function AttendTableIdPage() {
 
             const newDish: DishesToOrderInterface = {
                 ...dish,
-                idOrder: orderdDishes.length,
+                idOrder: orderedDishes.length,
                 amount: 1,
                 totalToPay: dish.price,
                 observations: observations.trim() || undefined
@@ -101,7 +101,7 @@ export default function AttendTableIdPage() {
         setObservations("");
     }
     const onChangeAmount = (direction: "minus" | "plus", id: number) => {
-        setOrderdDishes(prev => {
+        setOrderedDishes(prev => {
             return prev
                 .map(item =>
                     item.idOrder === id
@@ -131,117 +131,112 @@ export default function AttendTableIdPage() {
         }, 1000);
     }
 
-    return <>
-        <div className="flex flex-col gap-4 px-4">
-            <Box>
-                <div className="flex items-center gap-2">
-                    <p className="text-sm font-medium text-gray-800">Estado:</p>
-                    <div className="flex gap-2 items-center justify-center">
-                        <span
-                            className={`rounded-full px-4 py-1 text-sm font-medium ${tableStatuses.find((s) => s.value === statusTable)?.colors || "bg-gray-100 text-gray-800"
-                                }`}
-                        >
-                            {tableStatuses.find((s) => s.value === statusTable)?.label || "Desconocido"}
-                        </span>
+    return <div className="flex flex-col gap-4 px-4">
+        <Box>
+            <div className="flex items-center gap-2">
+                <p className="text-sm font-medium text-gray-800">Estado:</p>
+                <div className="flex gap-2 items-center justify-center">
+                    <span
+                        className={`rounded-full px-4 py-1 text-sm font-medium ${tableStatuses.find((s) => s.value === statusTable)?.colors || "bg-gray-100 text-gray-800"
+                            }`}
+                    >
+                        {tableStatuses.find((s) => s.value === statusTable)?.label || "Desconocido"}
+                    </span>
 
-                        <Popover>
-                            <PopoverTrigger className={cn(buttonVariants({ variant: "outline" }), "flex gap-2 items-center justify-center")}>
-                                <PenLine size={20} /> <span>Cambiar estado</span>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <Select value={statusTable} onValueChange={setStatusTable}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Estado" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {tableStatuses.map((status) => (
-                                            <SelectItem key={status.value} value={status.value}>
-                                                {status.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                    <Popover>
+                        <PopoverTrigger className={cn(buttonVariants({ variant: "outline" }), "flex gap-2 items-center justify-center")}>
+                            <PenLine size={20} /> <span>Cambiar estado</span>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Select value={statusTable} onValueChange={setStatusTable}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Estado" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {tableStatuses.map((status) => (
+                                        <SelectItem key={status.value} value={status.value}>
+                                            {status.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                            </PopoverContent>
-                        </Popover>
-                    </div>
+                        </PopoverContent>
+                    </Popover>
                 </div>
-
-                <Input placeholder="Buscar plato" className="max-w-sm w-full" />
-            </Box>
-
-            <div className="w-full flex gap-4">
-                {[
-                    { label: "Comida rápida", link: "#" },
-                    { label: "Platos fuertes", link: "#" },
-                    { label: "Bebidas", link: "#" },
-                    { label: "Postres", link: "#" },
-                    { label: "Ensaladas / entradas", link: "#" }
-                ].map((category, index) => (
-                    <Link key={index} href={category.link} className={cn(buttonVariants({ variant: category.label === "Comida rápida" ? "default" : "outline" }))}>
-                        {category.label}
-                    </Link>
-                ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-4">
-                {fakeDishes.map((dish) => (
-                    <div key={dish.id}>
-                        <Box className="flex-row">
-                            <img
-                                src={dish.image}
-                                alt={`Imagen de ${dish.name}`}
-                                className="object-cover w-20 h-20 rounded-md"
-                            />
+            <Input placeholder="Buscar plato" className="max-w-sm w-full" />
+        </Box>
 
-                            <div className="flex flex-col gap-2 w-full text-left">
-                                <span className="text-lg font-bold">{dish.name}</span>
-                                <span className="text-md font-medium">
-                                    ${dish.price.toLocaleString("es-CO")}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col gap-2 justify-center items-center">
-                                <Button type="button" onClick={() => setOpenModal(dish.id)}>
-                                    Agregar
-                                </Button>
-                                <Link href="#" className={cn(buttonVariants({ variant: "link" }))}>
-                                    Ver más
-                                </Link>
-                            </div>
-                        </Box>
-
-                        <DialogAddDish
-                            onChangeObservation={onChangeObservation}
-                            openModal={openModal}
-                            dish={dish}
-                            setOpenModal={setOpenModal}
-                            handleAddDish={handleAddDish}
-                        />
-                    </div>
-                ))}
-            </div>
-
-            <TotalDishesSheet
-                onSubmitOrder={onSubmitOrder}
-                onClearOrder={() => {
-                    setOpenSheet(false)
-                    setOrderdDishes([]);
-                }}
-                openSheet={openSheet}
-                setOpenSheet={setOpenSheet}
-                onChangeAmount={onChangeAmount}
-                orderdDishes={orderdDishes}
-            />
-
-            {orderdDishes.length > 0 && <div className="w-full sticky bottom-2 items-center flex justify-center">
-                <Button size="lg" onClick={() => setOpenSheet(!openSheet)} className="w-full flex items-center justify-center font-bold gap-2 p-4 border max-w-md">
-                    <NotepadText size={25} /> <span>Ver pedidos ({orderdDishes.reduce((acum, dish) => acum + dish.amount, 0)})</span>
-                </Button>
-            </div>}
+        <div className="w-full flex gap-4">
+            {[
+                { label: "Comida rápida", link: "#" },
+                { label: "Platos fuertes", link: "#" },
+                { label: "Bebidas", link: "#" },
+                { label: "Postres", link: "#" },
+                { label: "Ensaladas / entradas", link: "#" }
+            ].map((category, index) => (
+                <Link key={index} href={category.link} className={cn(buttonVariants({ variant: category.label === "Comida rápida" ? "default" : "outline" }))}>
+                    {category.label}
+                </Link>
+            ))}
         </div>
-        {/* {orderdDishes.length > 0 && <Button variant="default" onClick={() => setOpenSheet(!openSheet)} className="sticky z-50 bottom-0 w-full flex items-center justify-start font-bold gap-2 bg-gray-100 p-4 rounded-t-3xl border">
 
-        </Button>} */}
-    </>
+        <div className="grid grid-cols-1 gap-4">
+            {fakeDishes.map((dish) => (
+                <div key={dish.id}>
+                    <Box className="flex-row">
+                        <img
+                            src={dish.image}
+                            alt={`Imagen de ${dish.name}`}
+                            className="object-cover w-20 h-20 rounded-md"
+                        />
+
+                        <div className="flex flex-col gap-2 w-full text-left">
+                            <span className="text-lg font-bold">{dish.name}</span>
+                            <span className="text-md font-medium">
+                                ${dish.price.toLocaleString("es-CO")}
+                            </span>
+                        </div>
+
+                        <div className="flex flex-col gap-2 justify-center items-center">
+                            <Button type="button" onClick={() => setOpenModal(dish.id)}>
+                                Agregar
+                            </Button>
+                            <Link href="#" className={cn(buttonVariants({ variant: "link" }))}>
+                                Ver más
+                            </Link>
+                        </div>
+                    </Box>
+
+                    <DialogAddDish
+                        onChangeObservation={onChangeObservation}
+                        openModal={openModal}
+                        dish={dish}
+                        setOpenModal={setOpenModal}
+                        handleAddDish={handleAddDish}
+                    />
+                </div>
+            ))}
+        </div>
+
+        <TotalDishesSheet
+            onSubmitOrder={onSubmitOrder}
+            onClearOrder={() => {
+                setOpenSheet(false)
+                setOrderedDishes([]);
+            }}
+            openSheet={openSheet}
+            setOpenSheet={setOpenSheet}
+            onChangeAmount={onChangeAmount}
+            orderedDishes={orderedDishes}
+        />
+
+        {orderedDishes.length > 0 && <div className="w-full sticky bottom-2 items-center flex justify-center">
+            <Button size="lg" onClick={() => setOpenSheet(!openSheet)} className="w-full flex items-center justify-center font-bold gap-2 p-4 border max-w-md">
+                <NotepadText size={25} /> <span>Ver pedidos ({orderedDishes.reduce((acum, dish) => acum + dish.amount, 0)})</span>
+            </Button>
+        </div>}
+    </div>
 }

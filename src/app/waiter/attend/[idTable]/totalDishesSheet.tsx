@@ -8,14 +8,14 @@ import { Separator } from "@/components/ui/separator";
 
 
 interface TotalDishesSheetProps {
-  orderdDishes: DishesToOrderInterface[]
+  orderedDishes: DishesToOrderInterface[]
   onClearOrder: () => void
   onChangeAmount: (direcion: "minus" | "plus", id: number) => void
   openSheet: boolean
   setOpenSheet: (state: boolean) => void
   onSubmitOrder: () => void
 }
-export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet, orderdDishes, onChangeAmount, onSubmitOrder }: TotalDishesSheetProps) {
+export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet, orderedDishes, onChangeAmount, onSubmitOrder }: TotalDishesSheetProps) {
 
   return <Sheet open={openSheet} onOpenChange={setOpenSheet}>
     <SheetContent side="bottom" className="max-h-[30rem] overflow-y-auto pb-10">
@@ -23,7 +23,7 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
         <SheetTitle className="text-xl">Resumen de la orden</SheetTitle>
       </SheetHeader>
       <div className="grid grid-cols-1 gap-4 overflow-y-auto px-4">
-        {orderdDishes.map((dish) =>
+        {orderedDishes.map((dish) =>
           dish.amount >= 1 && (
             <Box
               key={dish.idOrder}
@@ -62,7 +62,7 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
           </span>
           <Separator orientation="vertical" className="mx-4" />
           <span className="font-bold text-xl px-4">
-            ${orderdDishes.reduce((acum, dish) => acum + dish.totalToPay, 0).toLocaleString("es-CO")}
+            ${orderedDishes.reduce((acum, dish) => acum + dish.totalToPay, 0).toLocaleString("es-CO")}
           </span>
         </Box>
 
@@ -70,7 +70,7 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
           <Button variant="destructive" onClick={() => onClearOrder()}>
             Vaciar
           </Button>
-          <Button disabled={orderdDishes.length === 0} onClick={() => onSubmitOrder()}>
+          <Button disabled={orderedDishes.length === 0} onClick={() => onSubmitOrder()}>
             Confirmar orden
           </Button>
         </div>
