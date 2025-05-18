@@ -29,7 +29,7 @@ export interface DishesToOrderInterface extends DishesInterface {
     totalToPay: number
     observations?: string
 }
-const fakeDishes: DishesInterface[] = [
+export const fakeDishes: DishesInterface[] = [
     {
         id: 1,
         name: "Hamburguesa Clásica",

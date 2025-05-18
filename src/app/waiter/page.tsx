@@ -1,9 +1,6 @@
 "use client"
-import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
-import { PenLine } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export const tables = [
   { id: 1, name: "Mesa 1", isAttented: false },
