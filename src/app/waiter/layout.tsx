@@ -5,6 +5,7 @@ import { CircleChevronLeft } from 'lucide-react';
 import { useParams, usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 import MenuWaiter from './attend/[idTable]/menuWaiter';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function WaiterLayout({ children }: { children: ReactNode }) {
     const { idTable } = useParams();
@@ -24,9 +25,12 @@ export default function WaiterLayout({ children }: { children: ReactNode }) {
 
     return <section className="flex flex-col gap-4">
 
-        <div className="p-4 flex items-center justify-between bg-white rounded-md">
+        <div className="p-4 flex items-center justify-between rounded-md">
             <div className="flex gap-2 items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1651684215020-f7a5b6610f23?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyZmlsJTIwZGUlMjBob21icmV8ZW58MHx8MHx8fDA%3D" alt="foto de perfil" className="h-10 w-10 object-cover rounded-full" />
+                <Avatar>
+                    <AvatarImage src="https://images.unsplash.com/photo-1651684215020-f7a5b6610f23?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyZmlsJTIwZGUlMjBob21icmV8ZW58MHx8MHx8fDA%3D" />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
                 <div className="flex flex-col">
                     <span className="font-medium text-md">
                         William Jerome
@@ -35,6 +39,7 @@ export default function WaiterLayout({ children }: { children: ReactNode }) {
                         Mesero
                     </span>
                 </div>
+                {/* <span className="font-bold text-lg">ServiTap</span> */}
             </div>
             <MenuWaiter />
         </div>

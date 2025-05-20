@@ -36,11 +36,11 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
               />
 
               <div className="flex flex-col gap-1 w-full text-left">
-                <p className="text-base sm:text-lg font-semibold text-gray-900">{dish.name}</p>
+                <p className="text-base sm:text-lg font-semibold">{dish.name}</p>
                 {dish.observations && (
-                  <p className="text-sm text-gray-700 italic">{dish.observations}</p>
+                  <p className="text-sm italic">{dish.observations}</p>
                 )}
-                <p className="text-sm font-medium text-gray-600">${dish.totalToPay.toLocaleString("es-CO")}</p>
+                <p className="text-sm font-medium">${dish.totalToPay.toLocaleString("es-CO")}</p>
               </div>
 
               <div className="flex gap-2 items-center justify-center">
@@ -57,7 +57,7 @@ export default function TotalDishesSheet({ onClearOrder, openSheet, setOpenSheet
         )}
 
         <Box className="flex-row justify-between items-center">
-          <span className="font-semibold text-lg text-gray-700 px-4">
+          <span className="font-semibold text-lg px-4">
             Total:
           </span>
           <Separator orientation="vertical" className="mx-4" />
