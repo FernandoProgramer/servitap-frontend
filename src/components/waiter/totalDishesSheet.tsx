@@ -1,11 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
-import { DishesToOrderInterface } from "./page";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { toast } from "sonner";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import Box from "@/components/ui/box";
 import { Separator } from "@/components/ui/separator";
-
+import { DishesToOrderInterface } from "@/app/waiter/attend/[idTable]/page";
 
 interface TotalDishesSheetProps {
   orderedDishes: DishesToOrderInterface[]

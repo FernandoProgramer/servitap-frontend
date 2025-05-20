@@ -6,14 +6,14 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/libs/utils';
 import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
-import TotalDishesSheet from './totalDishesSheet';
-import DialogAddDish from './dialogAddDish';
 import { icons, Newspaper, NotepadText, PenLine, X } from 'lucide-react';
 import Box from '@/components/ui/box';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import DialogAddDish from '@/components/waiter/dialogAddDish';
+import TotalDishesSheet from '@/components/waiter/totalDishesSheet';
 
 
 export interface DishesInterface {
@@ -134,7 +134,7 @@ export default function AttendTableIdPage() {
     return <div className="flex flex-col gap-4 px-4">
         <Box>
             <div className="flex items-center gap-2">
-                <p className="text-sm font-medium text-gray-800">Estado:</p>
+                <p className="text-sm font-medium">Estado:</p>
                 <div className="flex gap-2 items-center justify-center">
                     <span
                         className={`rounded-full px-4 py-1 text-sm font-medium ${tableStatuses.find((s) => s.value === statusTable)?.colors || "bg-gray-100 text-gray-800"

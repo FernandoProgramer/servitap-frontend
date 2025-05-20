@@ -13,7 +13,6 @@ export default function MenuWaiter() {
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => router.push("/waiter/")}>
                 <Grid2x2 />
                 Ver mesas

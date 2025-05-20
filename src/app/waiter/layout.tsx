@@ -1,11 +1,9 @@
 "use client"
 import Box from '@/components/ui/box';
-import { Button } from '@/components/ui/button';
-import { CircleChevronLeft } from 'lucide-react';
 import { useParams, usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
-import MenuWaiter from './attend/[idTable]/menuWaiter';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import MenuWaiter from '@/components/waiter/menuWaiter';
 
 export default function WaiterLayout({ children }: { children: ReactNode }) {
     const { idTable } = useParams();
@@ -39,7 +37,6 @@ export default function WaiterLayout({ children }: { children: ReactNode }) {
                         Mesero
                     </span>
                 </div>
-                {/* <span className="font-bold text-lg">ServiTap</span> */}
             </div>
             <MenuWaiter />
         </div>
@@ -49,7 +46,7 @@ export default function WaiterLayout({ children }: { children: ReactNode }) {
                 <span className="text-2xl font-semibold">
                     {section.name}
                 </span>
-                <span className="text-md font-medium text-gray-600">
+                <span className="text-md font-medium">
                     {section.description}
                 </span>
             </Box>

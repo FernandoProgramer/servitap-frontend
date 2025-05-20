@@ -1,4 +1,6 @@
 "use client"
+import Box from "@/components/ui/box";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/libs/utils";
 import Link from "next/link";
 
@@ -14,22 +16,27 @@ export const tables = [
   { id: 9, name: "Mesa 9", isAttented: true },
   { id: 10, name: "Mesa 10", isAttented: true },
 ];
-
-
 export default function WaiterPage() {
   return <div>
     <div className="grid grid-cols-2 gap-2 px-4">
       {tables.map((table) => (
-        <Link href={`waiter/attend/${table.id}/`} type="button" key={table.id} className={cn(
-          "shadow relative borde justify-center items-center flex px-10 pt-4 pb-14 rounded-xl transition-all ease-in-out duration-300 ", "border-gray-500 cursor-pointer hover:bg-gray-100 hover:shadow-lg bg-white text-gray-900"
-        )}>
-          <span className="font-bold text-2xl">{table.name}</span>
-          {table.isAttented && <div>
-            <span className="absolute bg-yellow-100 left-1/2 -translate-x-1/2 bottom-6 text-yellow-800 py-1 px-3 rounded-full shadow-sm text-xs font-medium">Atentidada</span>
-          </div>}
+        <Box key={table.id}>
+          <Link
+              href={`waiter/attend/${table.id}/`}
+              type="button"
+              className="w-full relative flex flex-col items-center justify-center pb-10 pt-5"
+            >
+              <span className="font-bold text-2xl">{table.name}</span>
 
-        </Link>
+              {table.isAttented && (
+                <span className="absolute bg-yellow-100 left-1/2 -translate-x-1/2 bottom-2 text-yellow-800 py-1 px-3 rounded-full shadow-sm text-xs font-medium">
+                  Atendida
+                </span>
+              )}
+            </Link>
+        </Box>
       ))}
     </div>
   </div>
+
 }

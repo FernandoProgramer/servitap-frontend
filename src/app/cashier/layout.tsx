@@ -5,10 +5,10 @@ import AppSidebarCashier from "@/components/appSidebarCashier";
 export default function CashierLayout({ children }: { children: ReactNode }) {
     return <SidebarProvider>
         <AppSidebarCashier />
-        <SidebarInset>
+        <main className="p-4">
             <SidebarTrigger />
             {children}
-        </SidebarInset>
+        </main>
     </SidebarProvider>
 
 
