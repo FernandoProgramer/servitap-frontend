@@ -62,7 +62,11 @@ export default function AppSidebarCashier() {
                             <AvatarImage src="/logo-servi-tap-sm.png" />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
-                        <span className="font-bold text-lg">ServiTap</span>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-md">ServiTap</span>
+                            <span className="truncate text-xs">Caja</span>
+                        </div>
+
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
@@ -108,10 +112,7 @@ export default function AppSidebarCashier() {
                                         <AvatarImage src="https://github.com/shadcn.png" />
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
-                                    <div className="flex flex-col">
-                                        <span className="truncate font-semibold">Camilo Riveros</span>
-                                        <span className="truncate text-xs">Caja</span>
-                                    </div>
+                                    <span className="truncate font-semibold">Camilo Riveros</span>
                                 </div>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
