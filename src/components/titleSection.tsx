@@ -14,12 +14,12 @@ export default function TitleSection({ title, children, headerClassName, content
             <div className="w-full h-15 bg-white/30 backdrop-blur-sm absolute z-20" />
             <div className="flex flex-col relative z-30">
                 <SidebarTrigger />
-                <span className="font-semibold text-xl px-2">
+                <span className="font-semibold text-xl px-4">
                     {title.toString().toUpperCase()}
                 </span>
             </div>
         </div>
-        <div className={cn("p-2 relative z-0 flex flex-col gap-3", contentClassName)}>
+        <div className={cn("p-4 relative z-0 flex flex-col gap-3", contentClassName)}>
             {children}
         </div>
     </div>

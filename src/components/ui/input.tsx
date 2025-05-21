@@ -1,6 +1,19 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { Search } from "lucide-react"
+
+function InputSearch({ className, type, ...props }: React.ComponentProps<"input">) {
+  return <div className="relative">
+    <Input
+      type="search"
+      placeholder="Buscar mesa"
+      className={cn("w-md pr-8", className)}
+      {...props}
+    />
+    <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
+  </div>
+}
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
@@ -18,4 +31,4 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   )
 }
 
-export { Input }
+export { Input, InputSearch }
