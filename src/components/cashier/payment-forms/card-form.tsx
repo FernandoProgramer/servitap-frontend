@@ -3,8 +3,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function CardForm() {
-    return <div className="w-full flex flex-col gap-2">
-        <div className="flex gap-1">
+    return <div className="grid grid-cols-1 gap-4">
+        <div className="flex gap-2">
             <div className="flex flex-col gap-1 w-full">
                 <Label>Número de tarjeta*</Label>
                 <Input placeholder="1234 5678 9101" />
@@ -14,7 +14,7 @@ export default function CardForm() {
                 <Input placeholder="123" />
             </div>
         </div>
-        <div className="flex gap-1 w-full">
+        <div className="flex gap-2 w-full">
             <div className="flex flex-col gap-1 w-full">
                 <Label>Año de expiración*</Label>
                 <Select>

@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export default function CashForm() {
-    return <div>
+    return <div className="grid grid-cols-1 gap-4">
         <div className="flex flex-col gap-1">
             <Label>Total a pagar</Label>
             <Input readOnly value="$60.000,00" />

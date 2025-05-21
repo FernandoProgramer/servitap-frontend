@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function TransferForm({ bancosColombianos }: { bancosColombianos: Record<string, string>[] }) {
-    return <div className="grid grid-cols-2 gap-1">
+    return <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1 w-full">
             <Label>Entidad bancaria*</Label>
             <Select>

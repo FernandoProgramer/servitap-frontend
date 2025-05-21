@@ -11,9 +11,9 @@ import { Banknote, CreditCard, RefreshCw, Send } from "lucide-react"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
-import CashForm from "./payment-forms/Cash-form"
 import CardForm from "./payment-forms/card-form"
 import TransferForm from "./payment-forms/transfer-form"
+import CashForm from "./payment-forms/cash-form"
 
 interface DialogChargeTableProps {
     isOpen: number | null

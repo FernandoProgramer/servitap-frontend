@@ -15,7 +15,7 @@ export default function TitleSection({ title, children, headerClassName, content
             <div className="flex flex-col relative z-30">
                 <SidebarTrigger />
                 <span className="font-semibold text-xl px-2">
-                    {title}
+                    {title.toString().toUpperCase()}
                 </span>
             </div>
         </div>
