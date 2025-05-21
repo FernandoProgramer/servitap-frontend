@@ -48,7 +48,7 @@ export default function page() {
     }
 
     return <>
-        <Input placeholder="Buscar mesa" className="w-md" />
+        <Input placeholder="Buscar mesa" className="md:max-w-sm" />
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {Array.from({ length: 8 }).map((_, index) => <Box

@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils"
 import { Search } from "lucide-react"
 
 function InputSearch({ className, type, ...props }: React.ComponentProps<"input">) {
-  return <div className="relative">
+  return <div className="relative w-full">
     <Input
       type="search"
       placeholder="Buscar mesa"
-      className={cn("w-md pr-8", className)}
+      className={cn("pr-8", className)}
       {...props}
     />
     <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground size-4" />
