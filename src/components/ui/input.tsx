@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { Search } from "lucide-react"
 
 function InputSearch({ className, type, ...props }: React.ComponentProps<"input">) {
-  return <div className="relative w-full">
+  return <div className="relative md:max-w-sm w-full">
     <Input
       type="search"
       placeholder="Buscar mesa"
