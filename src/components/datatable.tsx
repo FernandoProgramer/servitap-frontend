@@ -1,12 +1,13 @@
 "use client"
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable, PaginationState, getPaginationRowModel, SortingState, getSortedRowModel, VisibilityState } from '@tanstack/react-table'
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable, PaginationState, getPaginationRowModel, SortingState, getSortedRowModel, VisibilityState, getFilteredRowModel } from '@tanstack/react-table'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import Box from './ui/box'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import DataTablePagination from './datatable-pagination'
 import { Button } from './ui/button'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { InputSearch } from './ui/input'
 
 interface DataTableHistoryPaymentProps<TData, TValue> {
     data: TData[]
@@ -22,9 +23,9 @@ export default function DataTable<TData, TValue>({
         pageSize: 5,
         pageIndex: 0,
     });
-
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [globalFilter, setGlobalFilter] = useState("");
 
     const table = useReactTable({
         data,
@@ -32,21 +33,25 @@ export default function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
         onPaginationChange: setPagination,
         onSortingChange: setSorting,
         onColumnVisibilityChange: setColumnVisibility,
+        onGlobalFilterChange: setGlobalFilter,
         state: {
             pagination,
             sorting,
-            columnVisibility
+            columnVisibility,
+            globalFilter,
         },
-    })
+    });
 
     return <Box>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-between">
+            <InputSearch onChange={(e) => setGlobalFilter(e.target.value)} />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className="ml-auto" variant="outline">
+                    <Button variant="outline">
                         Filas
                     </Button>
                 </DropdownMenuTrigger>

@@ -44,6 +44,5 @@ export default function DataTableColumnHeader<TData, TValue>({
                 </DropdownMenuItem>}
             </DropdownMenuContent>
         </DropdownMenu>
-
     </div>
 }
