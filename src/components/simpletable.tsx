@@ -2,15 +2,17 @@
 
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
+import { ReactNode } from "react"
 
 
 interface SimpletableProps<TData, TValue> {
     data: TData[]
     columns: ColumnDef<TData, TValue>[]
     caption?: string
+    TFooter?: ReactNode
 }
 export default function Simpletable<TData, TValue>({
-    data, columns, caption
+    data, columns, caption, TFooter
 }: SimpletableProps<TData, TValue>) {
 
     const table = useReactTable({
@@ -40,5 +42,6 @@ export default function Simpletable<TData, TValue>({
                 </TableCell>)}
             </TableRow>)}
         </TableBody>
+        {TFooter && TFooter}
     </Table>
 }
