@@ -4,16 +4,16 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { Separator } from "../ui/separator"
 import { Label } from "../ui/label"
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group"
-import { Banknote, CreditCard, RefreshCw, Send } from "lucide-react"
-import { Input } from "../ui/input"
+import { Banknote, CreditCard, Send } from "lucide-react"
 import { Button } from "../ui/button"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
 import CardForm from "./payment-forms/card-form"
 import TransferForm from "./payment-forms/transfer-form"
 import CashForm from "./payment-forms/cash-form"
+import Simpletable from "../simpletable"
+import { columns } from "@/app/cashier/charge-table/columnsSummaryOrder"
+import { DataSummaryOrderInterface } from "@/app/cashier/charge-table/dataSummaryOrder"
 
 interface DialogChargeTableProps {
     isOpen: number | null
@@ -23,8 +23,10 @@ interface DialogChargeTableProps {
     bancosColombianos: Record<string, string>[]
     onSelectPayment: (data: "cash" | "credit-card" | "transfer" | null) => void
     methodPayment: "cash" | "credit-card" | "transfer" | null
+    dataSummaryOrder: DataSummaryOrderInterface[]
 }
-export default function DialogChargeTable({ isOpen, setIsOpen, id, onClickRegisterPayment, bancosColombianos, onSelectPayment, methodPayment }: DialogChargeTableProps) {
+export default function DialogChargeTable({ dataSummaryOrder, isOpen, setIsOpen, id, onClickRegisterPayment, bancosColombianos, onSelectPayment, methodPayment }: DialogChargeTableProps) {
+
     return <Dialog
         open={isOpen === id}
         onOpenChange={(open) => {
@@ -35,41 +37,8 @@ export default function DialogChargeTable({ isOpen, setIsOpen, id, onClickRegist
                 <DialogTitle>Cobrar mesa {id}</DialogTitle>
 
                 <div className="flex flex-col gap-5 max-h-[80vh] overflow-y-auto">
-                    <div className="flex flex-col gap-2 border border-border p-3 bg-background shadow-sm">
-                        <div className="flex flex-col gap-2">
-                            {/* Ítem 1 */}
-                            <div className="flex justify-between items-center text-base">
-                                <p className="font-semibold text-foreground">
-                                    Hamburguesa <span className="text-sm font-normal text-muted-foreground">(x2)</span>
-                                </p>
-                                <p className="text-right text-foreground font-medium">$20.000,00</p>
-                            </div>
-
-                            {/* Ítem 2 con observación */}
-                            <div className="flex justify-between items-center text-base">
-                                <p className="font-semibold text-foreground">
-                                    Hamburguesa <span className="italic text-sm font-normal text-muted-foreground">(Sin cebolla)</span> <span className="text-sm font-normal text-muted-foreground">(x1)</span>
-                                </p>
-                                <p className="text-right text-foreground font-medium">$10.000,00</p>
-                            </div>
-
-                            {/* Ítem 3 */}
-                            <div className="flex justify-between items-center text-base">
-                                <p className="font-semibold text-foreground">
-                                    Hamburguesa <span className="text-sm font-normal text-muted-foreground">(x2)</span>
-                                </p>
-                                <p className="text-right text-foreground font-medium">$20.000,00</p>
-                            </div>
-                        </div>
-
-                        <Separator className="my-2" />
-
-                        {/* Total */}
-                        <div className="flex justify-between items-center text-lg mt-2">
-                            <p className="font-bold text-foreground">Total a pagar:</p>
-                            <p className="font-bold text-foreground">$60.000,00</p>
-                        </div>
-                    </div>
+                    {/* tabla */}
+                    <Simpletable data={dataSummaryOrder} columns={columns} />
                     {/* Formulario */}
                     <div className="flex flex-col gap-2">
                         <Label>Metodo de pago</Label>

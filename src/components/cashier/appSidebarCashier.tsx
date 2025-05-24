@@ -1,15 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import {
     DollarSign,
-    CreditCard,
     Clock,
-    FileText,
     Lock,
-    Users,
-    Receipt,
     PiggyBank,
-    ChevronDown,
     ChevronsUpDown,
     SquarePen,
     DoorOpen,
@@ -18,8 +13,20 @@ import Link from 'next/link';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '../ui/button';
 
-const groupedCashierActions = [
+interface Actions {
+    title: string
+    icon: ReactNode
+    url: string
+    important?: boolean
+}
+interface GroupedCashierActions {
+    title: string
+    actions: Actions[]
+}
+const groupedCashierActions: GroupedCashierActions[] = [
     {
         title: "Operaciones de Caja",
         actions: [
@@ -42,6 +49,7 @@ const groupedCashierActions = [
                 title: "Cierre de turno",
                 icon: <Lock className="size-5" />,
                 url: "/cashier/shift-close",
+                important: true
             },
             {
                 title: "Resumen diario",
@@ -78,7 +86,7 @@ export default function AppSidebarCashier() {
                     <SidebarMenu>
                         {item.actions.map((item, index) => <SidebarMenuItem key={index}>
                             <SidebarMenuButton asChild>
-                                <Link href={item.url}>
+                                <Link href={item.url} className={cn(item.important && buttonVariants({ variant: "default" }), "justify-start")}>
                                     {item.icon}
                                     {item.title}
                                 </Link>

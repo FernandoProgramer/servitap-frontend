@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button'
-import { InputSearch } from '@/components/ui/input'
 import { FileDown } from 'lucide-react'
 
 import DataTable from '@/components/datatable'
 import { columns } from './columns'
-import { getPaymentHistory } from './history-payments'
+import { getPaymentHistory, HistoryPaymentsInterface } from './history-payments'
 
 export default async function PaymentHistoryPage() {
     const payments = await getPaymentHistory();
@@ -17,7 +16,7 @@ export default async function PaymentHistoryPage() {
         </div>
         <div className="w-full">
 
-            <DataTable columns={columns} data={payments} caption="Historial de pagos" />
+            <DataTable<HistoryPaymentsInterface, any> columns={columns} data={payments} caption="Historial de pagos" />
 
         </div>
     </>

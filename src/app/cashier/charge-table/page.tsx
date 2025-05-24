@@ -3,14 +3,15 @@ import DialogChargeTable from "@/components/cashier/dialogChargeTable";
 import Box from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { DataSummaryOrderInterface, getSummaryOrderById } from "./dataSummaryOrder";
 
 export default function page() {
 
     const [isOpen, setIsOpen] = useState<null | number>(null);
     const [methodPayment, setMethodPayment] = useState<"cash" | "credit-card" | "transfer" | null>(null);
+    const [dataSummaryOrder, setDataSummaryOrder] = useState<DataSummaryOrderInterface[]>([]);
     const bancosColombianos = [
         { value: "bancolombia", label: "Bancolombia" },
         { value: "davivienda", label: "Davivienda" },
@@ -33,6 +34,13 @@ export default function page() {
         { value: "otro", label: "Otro" }
     ];
 
+    useEffect(() => {
+        async function loadData() {
+            const data = await getSummaryOrderById();
+            setDataSummaryOrder(data);
+        }
+        loadData();
+    }, []);
 
     const onClickCharge = (index: number) => {
         setIsOpen(index);
@@ -67,6 +75,7 @@ export default function page() {
                     </Button>
                 </div>
                 <DialogChargeTable
+                    dataSummaryOrder={dataSummaryOrder}
                     methodPayment={methodPayment}
                     onSelectPayment={onSelectPayment}
                     bancosColombianos={bancosColombianos}
@@ -78,5 +87,4 @@ export default function page() {
             </Box>)}
         </div>
     </>
-
 }
